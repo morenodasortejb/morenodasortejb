@@ -1,114 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moreno da Sorte Jb</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        header {
-            background: black;
-            color: #00ff00;
-            font-size: 2em;
-            padding: 20px;
-            font-weight: bold;
-            text-shadow: 0px 0px 10px #00ff00;
-            position: relative;
-        }
-
-        header::after {
-            content: "🍀🌱🌿";
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            font-size: 1.5em;
-        }
-
-        nav {
-            background: #333;
-            padding: 10px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 1.2em;
-        }
-
-        section {
-            padding: 20px;
-        }
-
-        .palpites, .resultados, .redes-sociais {
-            background: white;
-            padding: 20px;
-            margin: 20px auto;
-            border-radius: 10px;
-            width: 80%;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .milhar {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #333;
-            margin: 5px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moreno da Sorte JB</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- Cabeçalho -->
+  <header class="galaxy-header">
+    <h1>Moreno da Sorte JB</h1>
+    <nav>
+      <ul>
+        <li><a href="#resultados">Resultados</a></li>
+        <li><a href="#palpites">Palpites</a></li>
+        <li><a href="#oraculo">Oráculo</a></li>
+        <li><a href="#redes-sociais">Redes Sociais</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header>
-    Moreno da Sorte Jb
-</header>
-
-<nav>
-    <a href="#palpites">Palpites</a>
-    <a href="#resultados">Resultados</a>
-    <a href="#redes-sociais">Redes Sociais</a>
-</nav>
-
-<section id="palpites" class="palpites">
-    <h2>Palpites do Dia</h2>
-    <div id="lista-palpites"></div>
-</section>
-
-<section id="resultados" class="resultados">
+  <!-- Resultados -->
+  <section id="resultados">
     <h2>Resultados</h2>
-    <p>Em breve, os resultados serão atualizados automaticamente.</p>
-</section>
+    <div id="banca-results"></div>
+  </section>
 
-<section id="redes-sociais" class="redes-sociais">
-    <h2>Redes Sociais</h2>
-    <p>📞 Entre em contato pelo WhatsApp: <strong>(83) 99102-3576</strong></p>
-</section>
+  <!-- Palpites -->
+  <section id="palpites">
+    <h2>Palpites</h2>
+    <div id="palpites-container"></div>
+  </section>
 
-<script>
-    function gerarMilhares() {
-        let palpites = new Set();
-        while (palpites.size < 20) {
-            let numero = Math.floor(1000 + Math.random() * 9000); 
-            palpites.add(numero);
-        }
-        return Array.from(palpites);
-    }
+  <!-- Oráculo -->
+  <section id="oraculo">
+    <h2>Oráculo</h2>
+    <button id="sorte-button" class="green-button">Veja sua Sorte</button>
+    <div id="oracle-result">
+      <p id="milhar"></p>
+      <p id="frase"></p>
+    </div>
+  </section>
 
-    function exibirPalpites() {
-        let palpites = gerarMilhares();
-        let lista = document.getElementById("lista-palpites");
-        lista.innerHTML = palpites.map(num => `<div class="milhar">${num}</div>`).join('');
-    }
+  <!-- Redes Sociais -->
+  <section id="redes-sociais">
+    <h2>Nossas Redes Sociais</h2>
+    <div class="social-icons">
+      <a href="https://facebook.com/morenodasortejb" target="_blank"><img src="images/social/facebook.png" alt="Facebook"></a>
+      <a href="https://instagram.com/morenodasortejb" target="_blank"><img src="images/social/instagram.png" alt="Instagram"></a>
+      <a href="https://twitter.com/morenodasortejb" target="_blank"><img src="images/social/twitter.png" alt="Twitter"></a>
+      <a href="https://tiktok.com/@morenodasortejb" target="_blank"><img src="images/social/tiktok.png" alt="TikTok"></a>
+      <a href="https://kwai.com/@morenodasortejb" target="_blank"><img src="images/social/kwai.png" alt="Kwai"></a>
+    </div>
+  </section>
 
-    exibirPalpites();
-</script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>
