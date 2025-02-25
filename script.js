@@ -1,42 +1,56 @@
-document.addEventListener("DOMContentLoaded", function () {
-    atualizarResultados();
-    gerarPalpites();
-});
-
-// Simulação da coleta de resultados (depois podemos integrar com uma fonte real)
-function atualizarResultados() {
-    let resultados = document.getElementById("resultados");
-    let agora = new Date().toLocaleTimeString();
-    
-    resultados.innerHTML = `
-        <h2>Resultados ao Vivo</h2>
-        <p>Última atualização: ${agora}</p>
-        <p>Banca A: 1234 - Grupo 10</p>
-        <p>Banca B: 5678 - Grupo 20</p>
-    `;
-
-    // Atualiza os resultados a cada 5 minutos
-    setTimeout(atualizarResultados, 300000);
+// Função para gerar milhar aleatória
+function gerarMilhar() {
+  return Math.floor(Math.random() * 10000).toString().padStart(4, '0');
 }
 
-// Gerar 10 palpites automáticos
-function gerarPalpites() {
-    let palpites = document.getElementById("palpites");
-    let numeros = [];
+// Frases motivacionais
+const frases = [
+  "Que o universo faça de ti um grande ganhador hoje!",
+  "A sorte está ao seu lado, acredite!",
+  "Hoje é o dia da virada!",
+  "O jogo do bicho te espera com grandes prêmios!"
+];
 
-    for (let i = 0; i < 10; i++) {
-        let milhar = Math.floor(1000 + Math.random() * 9000);
-        let grupo = Math.floor(1 + Math.random() * 25);
-        numeros.push(`Milhar: ${milhar} - Grupo: ${grupo}`);
-    }
+// Botão Oráculo
+document.getElementById('sorte-button').addEventListener('click', () => {
+  const milhar = gerarMilhar();
+  const frase = frases[Math.floor(Math.random() * frases.length)];
+  document.getElementById('milhar').textContent = `Milhar: ${milhar}`;
+  document.getElementById('frase').textContent = frase;
+});
 
-    palpites.innerHTML = `
-        <h2>Palpites do Dia</h2>
-        <ul>
-            ${numeros.map(num => `<li>${num}</li>`).join("")}
-        </ul>
+// Atualizar resultados e palpites via API
+async function atualizarResultadosEBanca() {
+  const response = await fetch('/api/results');
+  const data = await response.json();
+
+  const resultadosContainer = document.getElementById('banca-results');
+  const palpitesContainer = document.getElementById('palpites-container');
+
+  resultadosContainer.innerHTML = '';
+  palpitesContainer.innerHTML = '';
+
+  data.forEach(({ banca, resultado, palpites }) => {
+    // Exibir resultados
+    resultadosContainer.innerHTML += `
+      <div>
+        <h3>${banca}</h3>
+        <p>Resultado: ${resultado} <img src="images/bichos/${resultado.slice(-2)}.png" alt="Bicho"></p>
+      </div>
     `;
 
-    // Atualiza os palpites a cada 3 horas
-    setTimeout(gerarPalpites, 10800000);
-      }
+    // Exibir palpites
+    palpitesContainer.innerHTML += `
+      <div>
+        <h3>Palpites para ${banca}</h3>
+        <ul>
+          ${palpites.map(palpite => `<li>${palpite} <img src="images/bichos/${palpite.slice(-2)}.png" alt="Bicho"></li>`).join('')}
+        </ul>
+      </div>
+    `;
+  });
+}
+
+// Atualizar resultados a cada 5 minutos
+setInterval(atualizarResultadosEBanca, 5 * 60 * 1000);
+atualizarResultadosEBanca(); // Atualiza imediatamente ao carregar
